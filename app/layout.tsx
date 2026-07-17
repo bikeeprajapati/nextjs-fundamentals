@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Link from "next/link";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -27,7 +28,35 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col bg-slate-50 text-slate-900">
+        <header className="sticky top-0 z-20 border-b border-slate-200/80 bg-white/85 backdrop-blur">
+          <div className="mx-auto flex w-full max-w-5xl items-center justify-between px-6 py-4">
+            <Link href="/" className="text-lg font-bold tracking-tight text-slate-900">
+              My Website
+            </Link>
+            <nav className="flex items-center gap-5 text-sm font-medium text-slate-600">
+              <Link href="/about" className="transition-colors hover:text-slate-900">
+                About
+              </Link>
+              <Link href="/blog" className="transition-colors hover:text-slate-900">
+                Blog
+              </Link>
+              <Link href="/products" className="transition-colors hover:text-slate-900">
+                Products
+              </Link>
+            </nav>
+          </div>
+        </header>
+
+        <main className="mx-auto w-full max-w-5xl flex-1 px-6 py-10">{children}</main>
+
+        <footer className="mt-10 border-t border-slate-200 bg-white/70">
+          <div className="mx-auto flex w-full max-w-5xl items-center justify-between px-6 py-5 text-sm text-slate-600">
+            <p>© 2026 My Website</p>
+            <p>Built with Next.js</p>
+          </div>
+        </footer>
+      </body>
     </html>
   );
 }
