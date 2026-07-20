@@ -4,7 +4,8 @@ export const metadata: Metadata = {
         absolute: "Blog",
     }
 };
-export default function Blog() {
+export default async function Blog() {
+    await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate a delay of 2 seconds
     return (
         <main>
             <h1>Blog</h1>
