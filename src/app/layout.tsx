@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { ErrorWrapper } from "./error-wrapper";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -51,8 +52,9 @@ export default function RootLayout({
               </nav>
             </div>
           </header>
-
-          <div className="flex-1">{children}</div>
+          <ErrorWrapper>
+            <main className="flex-1">{children}</main>
+          </ErrorWrapper>
 
           <footer className="border-t border-slate-200 bg-white/70">
             <div className="mx-auto flex w-full max-w-5xl items-center justify-between px-6 py-5 text-sm text-slate-600">
