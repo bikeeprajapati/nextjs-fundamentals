@@ -37,3 +37,17 @@ export async function PATCH(
     comment: comments[index],
   });
 }
+
+export async function DELETE(_: Request, { params }: RouteContext) {
+  const { commentId } = await params;
+
+  const index = comments.findIndex((item) => item.id === commentId);
+
+  if (index === -1) {
+    return Response.json({ message: 'Comment not found' }, { status: 404 });
+  }
+
+  comments.splice(index, 1);
+
+  return Response.json({ message: 'Comment deleted' });
+}
