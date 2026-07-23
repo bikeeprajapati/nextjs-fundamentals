@@ -1,7 +1,11 @@
+import { NextRequest } from 'next/dist/server/web/spec-extension/request';
 import { comments } from '../../comments/data';
 
-export async function GET() {
-  return Response.json({ comments });
+export async function GET(request: NextRequest) {
+  const SearchParams = request.nextUrl.searchParams;
+  const query = SearchParams.get('query');
+  const filteredComments = query? comments.filter((comment) => comment.text.toLowerCase().includes(query.toLowerCase())) : comments;
+  return Response.json({ filteredComments });
 }
 
 export async function POST(request: Request) {
