@@ -1,4 +1,8 @@
-export default function AboutPage() {
+import  { cookies } from "next/headers";
+export default async function AboutPage() {
+    const cookieStore =  await cookies();
+    const theme = cookieStore.get("theme")?.value;
+    console.log("Theme cookie value:", theme);
     console.log("Rendering server component: AboutPage");
     return (
         <div>
