@@ -1,6 +1,6 @@
 "use server";
 
-import { addProduct, deleteProduct } from "@/prisma-db";
+import { addProduct, deleteProduct, updateProduct } from "@/prisma-db";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -17,10 +17,12 @@ export type FormState = {
   };
 };
 
-export async function createProduct(
-  prevState: FormState,
-  formData: FormData
-): Promise<FormState> {
+function validateProductFields(formData: FormData): {
+  errors: FormState["errors"];
+  title: string;
+  price: number;
+  description: string;
+} {
   const title = formData.get("title") as string;
   const priceRaw = formData.get("price") as string;
   const description = formData.get("description") as string;
@@ -40,11 +42,37 @@ export async function createProduct(
     errors.description = "Description is required";
   }
 
+  return { errors, title, price, description };
+}
+
+export async function createProduct(
+  prevState: FormState,
+  formData: FormData
+): Promise<FormState> {
+  const { errors, title, price, description } = validateProductFields(formData);
+
   if (Object.keys(errors).length > 0) {
     return { errors };
   }
 
   await addProduct(title, price, description);
   revalidatePath("/products-db");
+  redirect("/products-db");
+}
+
+export async function editProduct(
+  productId: number,
+  prevState: FormState,
+  formData: FormData
+): Promise<FormState> {
+  const { errors, title, price, description } = validateProductFields(formData);
+
+  if (Object.keys(errors).length > 0) {
+    return { errors };
+  }
+
+  await updateProduct(productId, title, price, description);
+  revalidatePath("/products-db");
+  revalidatePath(`/products-db/${productId}`);
   redirect("/products-db");
 }
