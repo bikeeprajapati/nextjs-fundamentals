@@ -1,7 +1,7 @@
 "use server";
 import { auth } from "@clerk/nextjs/server";
 import { clerkClient } from "@clerk/nextjs/server";
-import { Roles } from "../../../types/globals";
+import { Roles } from "@/types/globals";
 import { revalidatePath } from "next/cache";
 
 export async function setRole(formData: FormData) {
